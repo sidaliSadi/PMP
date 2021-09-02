@@ -31,6 +31,7 @@ def getStores(villes, url, filename):
         time.sleep(5)
         magasins = driver.find_elements_by_css_selector('p.dhtNbX')
         adresse = " "
+        # chaque adresse est representee par sune suite de balise <p> lobjectif est de concatener les valeurs de plusierus balises pour constituer une adresse complete 
         for magasin in magasins:
             
             if splitAdresse(magasin.text):
@@ -39,10 +40,11 @@ def getStores(villes, url, filename):
                 adresse = " "
             else:
               adresse = adresse +" "+ magasin.text
-        
+        #dictionnaire { 'ville' : [liste d'adresses de magasin dans cette ville]}
         magasins_dune_ville[ville] = magasins_adresses
+        #une liste de dictionnaires [{'ville1' : [adr 1, adr2, .....,},...., {'villeN' : [adr 1, adr2, .....,} ]
         magasins_par_ville.append(magasins_dune_ville)
-        
+    
     with open(filename, "w") as outfile:
         json.dump(magasins_par_ville, outfile, indent=4)
     driver.quit()
@@ -55,6 +57,7 @@ def splitAdresse(text):
     Output:
         Bool
     """
+    #detection des 3 premieres lettres d'un code postale
     token_pattern = re.compile("^[A-Z]\w{0,2}\s")
     tokens = re.findall(token_pattern, text)
     if len(tokens):
