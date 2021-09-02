@@ -41,7 +41,6 @@ def getStores(villes, url, filename):
               adresse = adresse +" "+ magasin.text
         
         magasins_dune_ville[ville] = magasins_adresses
-        print(len(magasins_adresses))
         magasins_par_ville.append(magasins_dune_ville)
         
     with open(filename, "w") as outfile:
